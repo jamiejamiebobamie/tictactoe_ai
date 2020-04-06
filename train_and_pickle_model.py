@@ -1,10 +1,16 @@
+from variables.constants import EPOCHS
+
 from functions.train import generate_initial_Q, train
 from functions.pickle import convert_Q_to_csv, get_Q_version_number, increment_Q_version_number
+
 
 # initialize
 print("Initializing Q.")
 Q = generate_initial_Q()
 print("Done initializing Q.\n")
+
+filepath = "Q_with_errors.csv"
+convert_Q_to_csv(Q, filepath)
 
 # train
 print("Begin training.")
@@ -26,7 +32,7 @@ increment_Q_version_number(filepath, incremented_version_num)
 version_q = incremented_version_num
 
 # where the Q is stored.
-filepath = 'Q_%s.csv' % (version_q)
+filepath = 'Q_v%s.csv' % (version_q)
 
 # save the Q.
 convert_Q_to_csv(Q, filepath)

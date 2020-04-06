@@ -1,5 +1,5 @@
 from functions.pickle import convert_csv_to_Q
-from functions.test.test import test_accuracy
+from functions.tests.test_accuracy import test_accuracy
 
 # load a.i.
 file_path = 'Q_v1.csv'

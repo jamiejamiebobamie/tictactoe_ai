@@ -37,3 +37,11 @@ def convert_csv_to_Q(file_path):
                 i+=1
             Q.update( {key: value} )
     return Q
+
+def get_Q_version_number(filepath):
+    with open(filepath, "r+") as vers_var:
+        print(vers_var.read()[0])
+
+def increment_Q_version_number(filepath, incrementedNum):
+    with open(filepath, "w") as vers_var:
+        vers_var.write(incrementedNum)

@@ -55,3 +55,45 @@ def get_index_of_max(iterable):
             max_i = i
 
     return max_i
+
+def get_indices_of_max(iterable):
+    """Return the max indices of the iterable."""
+
+    max_indices = []
+    max_v = float('-inf')
+    ACCEPTABLE_DIFFERENCE = 1 # hyperparameter
+
+    for i, iter in enumerate(iterable):
+        difference = max_v - iter
+        squared_difference = difference*difference
+        if squared_difference < ACCEPTABLE_DIFFERENCE:
+            max_indices.append(i)
+        else:
+            temp = max_v
+            max_v = max(iter,max_v)
+            if max_v != temp:
+                max_indices = []
+                max_i = i
+                max_indices.append(max_i)
+
+    return max_indices
+
+def print_vals_at_indices(vals_array, indices_array):
+    vals = []
+    if len(vals_array) > len(indices_array):
+        for i in indices_array:
+            vals.append(vals_array[i])
+    return vals
+
+def rotate_matrix_clockwise(flattened_array_of_length_nine):
+    return_array = [None]*9
+    return_array[0] = flattened_array_of_length_nine[6]
+    return_array[1] = flattened_array_of_length_nine[3]
+    return_array[2] = flattened_array_of_length_nine[0]
+    return_array[3] = flattened_array_of_length_nine[7]
+    return_array[4] = flattened_array_of_length_nine[4]
+    return_array[5] = flattened_array_of_length_nine[1]
+    return_array[6] = flattened_array_of_length_nine[8]
+    return_array[7] = flattened_array_of_length_nine[5]
+    return_array[8] = flattened_array_of_length_nine[2]
+    return return_array

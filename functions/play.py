@@ -1,8 +1,8 @@
 import random
 
-from constants import AFFIRMATIVE
-from utils import get_available_moves
-from ai import suggest_move
+from variables.constants import AFFIRMATIVE, WINNERS
+from functions.utils import get_available_moves
+from functions.ai import suggest_move
 
 def play_game(Q):
     """
@@ -131,10 +131,10 @@ def play_tictactoe_turn(action, state):
 
     board = list(board_state)
     board[action] = int(turn)
-    turn = not turn
+    new_turn = not turn
     new_board_state = tuple(board)
 
-    new_state = (turn, new_board_state)
+    new_state = (new_turn, new_board_state)
 
     return new_state
 

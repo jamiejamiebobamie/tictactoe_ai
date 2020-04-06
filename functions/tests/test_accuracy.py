@@ -1,3 +1,10 @@
+import random
+
+from functions.ai import suggest_move
+from functions.train import compute_R
+from functions.play import play_tictactoe_turn, check_winner
+from functions. utils import pick_random_move
+
 def test_single_moves(num_moves, Q):
     """
         Given an integer # of moves to test and a trained Q,

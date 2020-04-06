@@ -1,10 +1,10 @@
 import random
 
-from constants import EPOCHS, EPSILON, LEARNING_RATE, GAMMA
+from variables.constants import EPOCHS, EPSILON, LEARNING_RATE, GAMMA
 
-from utils import pick_random_move
-from play import play_tictactoe_turn, reset_game, check_winner
-from ai import suggest_move
+from functions.utils import pick_random_move, rotate_matrix_clockwise
+from functions.play import play_tictactoe_turn, reset_game, check_winner
+from functions.ai import suggest_move
 
 def generate_initial_Q():
     """
@@ -34,11 +34,12 @@ def generate_initial_Q():
     # play enough games to generate all states.
     for _ in range(100000):
 
-        # ignore 'player_symbol' variable.
-        state, winner, player_symbol = reset_game()
-        turn, board_state = state
+        state, winner, _ = reset_game()
 
         while winner == None:
+
+            _, board_state = state
+            winner = check_winner(board_state)
 
             move_here = pick_random_move(board_state)
             action = move_here
@@ -47,8 +48,7 @@ def generate_initial_Q():
             if state not in Q:
                 Q[state] = [0,0,0, 0,0,0, 0,0,0]
 
-            turn, board_state = state
-            winner = check_winner(board_state)
+            add_board_rotations_to_Q(state, Q)
 
     return Q # 8953 valid states, but 3**9 or 19683*2 permutations in all.
 
@@ -121,12 +121,11 @@ def train(EPOCHS, Q):
     """
     for epoch in range(EPOCHS):
 
-        # ignore 'player_symbol' variable.
-        state, winner, player_symbol = reset_game()
+        state, winner, _ = reset_game()
 
         while winner == None:
             state = play_tictactoe_turn_training(Q, state)
-            board_state = state[1]
+            _, board_state = state
             winner = check_winner(board_state)
 
         else:
@@ -149,7 +148,7 @@ def play_tictactoe_turn_training(Q, state):
 
     if random.uniform(0, 1) < EPSILON:
         # exploration
-        board_state = state[1]
+        _, board_state = state
         action = pick_random_move(board_state)
     else:
         # exploitation
@@ -165,11 +164,12 @@ def play_tictactoe_turn_training(Q, state):
 
     return next_state
 
-
-def get_Q_version_number(filepath):
-    with open(filepath, "r+") as vers_var:
-        print(vers_var.read()[0])
-
-def increment_Q_version_number(filepath, incrementedNum):
-    with open(filepath, "w") as vers_var:
-        vers_var.write(incrementedNum)
+def add_board_rotations_to_Q(state, Q):
+    turn, board_state = state
+    board = list(board_state)
+    for testing_count in range(3): # i think noninclusive
+        board = rotate_matrix_clockwise(board)
+        board_state = tuple(board)
+        state = turn, board_state
+        if state not in Q:
+            Q[state] = [0,0,0, 0,0,0, 0,0,0]
