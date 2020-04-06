@@ -17,7 +17,7 @@ GAMMA = .1
 LEARNING_RATE = .01
 
 # number of training epochs
-EPOCHS = 1000000
+EPOCHS = 10000000
 
 # the percent you want to explore while training
 EPSILON = 0.5

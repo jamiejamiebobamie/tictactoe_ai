@@ -46,7 +46,7 @@ def generate_initial_Q():
             state = play_tictactoe_turn(action, state)
 
             if state not in Q:
-                Q[state] = [0,0,0, 0,0,0, 0,0,0]
+                Q[state] = [0,0,0,0,0,0,0,0,0]
 
             add_board_rotations_to_Q(state, Q)
 
@@ -145,16 +145,20 @@ def play_tictactoe_turn_training(Q, state):
 
     # the immediate rewards based on the given board_state
     R = compute_R(state)
-
+    # choice = None
     if random.uniform(0, 1) < EPSILON:
         # exploration
         _, board_state = state
         action = pick_random_move(board_state)
+        # choice = 'explore'
     else:
         # exploitation
         action = suggest_move(Q, state)
+        # choice = 'exploit'
 
     next_state = play_tictactoe_turn(action, state)
+    # print(action, R)
+    # print(state,next_state)
 
     # Update the Q model.
     Q[state][action] = ( (1 - LEARNING_RATE) * Q[state][action]

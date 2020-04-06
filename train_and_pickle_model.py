@@ -24,15 +24,15 @@ print('Pickling model.')
 filepath = './variables/version_variable.md'
 version_num = get_Q_version_number(filepath)
 
-incremented_version_num = int(version_q) + 1
+incremented_version_num = int(version_num) + 1
 incremented_version_num = str(incremented_version_num)
 
 # save the incremented version number for next training
 increment_Q_version_number(filepath, incremented_version_num)
-version_q = incremented_version_num
+version_num = incremented_version_num
 
 # where the Q is stored.
-filepath = 'Q_v%s.csv' % (version_q)
+filepath = 'Q_v%s.csv' % (version_num)
 
 # save the Q.
 convert_Q_to_csv(Q, filepath)
