@@ -2,7 +2,7 @@ from functions.pickle import convert_csv_to_Q
 from tests.test_accuracy import test_accuracy, test_single_moves
 
 # load a.i.
-file_path = 'Q_v2.csv'
+file_path = 'Q_v4.csv'
 Q = convert_csv_to_Q(file_path)
 
 # test

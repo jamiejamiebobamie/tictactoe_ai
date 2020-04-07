@@ -9,9 +9,6 @@ print("Initializing Q.")
 Q = generate_initial_Q()
 print("Done initializing Q.\n")
 
-filepath = "Q_with_errors.csv"
-convert_Q_to_csv(Q, filepath)
-
 # train
 print("Begin training.")
 train(EPOCHS, Q)

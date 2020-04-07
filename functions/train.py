@@ -50,7 +50,7 @@ def generate_initial_Q():
 
             add_board_rotations_to_Q(state, Q)
 
-    return Q # 8953 valid states, but 3**9 or 19683*2 permutations in all.
+    return Q
 
 def compute_R(state):
     """
@@ -142,38 +142,43 @@ def play_tictactoe_turn_training(Q, state):
 
         Returns the new board state and the next person's turn.
     """
+    # train the Q on the board's rotations
+    for _ in range(4):
+        R = compute_R(state)
+        if random.uniform(0, 1) < EPSILON:
+            # exploration
+            _, board_state = state
+            action = pick_random_move(board_state)
+        else:
+            # exploitation
+            action = suggest_move(Q, state)
 
-    # the immediate rewards based on the given board_state
-    R = compute_R(state)
-    # choice = None
-    if random.uniform(0, 1) < EPSILON:
-        # exploration
-        _, board_state = state
-        action = pick_random_move(board_state)
-        # choice = 'explore'
-    else:
-        # exploitation
-        action = suggest_move(Q, state)
-        # choice = 'exploit'
+        next_state = play_tictactoe_turn(action, state)
 
-    next_state = play_tictactoe_turn(action, state)
-    # print(action, R)
-    # print(state,next_state)
+        # Update the Q model.
+        Q[state][action] = ( (1 - LEARNING_RATE) * Q[state][action]
+                                                    + LEARNING_RATE
+                                                    * ( R[action] + GAMMA
+                                                        * max(Q[next_state]) ) )
 
-    # Update the Q model.
-    Q[state][action] = ( (1 - LEARNING_RATE) * Q[state][action]
-                                                + LEARNING_RATE
-                                                * ( R[action] + GAMMA
-                                                    * max(Q[next_state]) ) )
-
+        state = get_rotated_board_state(state)
     return next_state
 
 def add_board_rotations_to_Q(state, Q):
     turn, board_state = state
     board = list(board_state)
-    for testing_count in range(3): # i think noninclusive
+    for _ in range(3):
         board = rotate_matrix_clockwise(board)
         board_state = tuple(board)
         state = turn, board_state
         if state not in Q:
             Q[state] = [0,0,0, 0,0,0, 0,0,0]
+
+def get_rotated_board_state(state):
+    turn, board_state = state
+    board = list(board_state)
+    board = rotate_matrix_clockwise(board)
+    board_state = tuple(board)
+    state = turn, board_state
+
+    return state
