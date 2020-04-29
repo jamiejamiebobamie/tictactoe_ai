@@ -2,7 +2,7 @@
 
 This is an improved version of [an earlier attempt](https://github.com/jamiejamiebobamie/Tic-Tac-Toe-with-Q-Reinforcement-Learning) at building a Tic-Tac-Toe A.I.
 
-The A.I. is trained using [Q reinforcement learning](https://en.wikipedia.org/wiki/Q-learning). The built model is a CSV files of states and actions.
+The A.I. is trained using [Q reinforcement learning](https://en.wikipedia.org/wiki/Q-learning). The built model is a CSV file of states and actions.
 
 Given the state of the board and the current person's turn, the model returns an array of scores associated with all of the possible actions for that state. The highest score is the ideal move.
 
